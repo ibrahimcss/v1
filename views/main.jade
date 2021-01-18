@@ -1,0 +1,22 @@
+extends layout
+block extraHeader
+    style(id="fontStyle").
+        *{
+            cursor: none;
+        }
+
+block extraFooter
+    script(src='/js/browserHereWeGo.js')
+block content
+    #icon_disconnect="L"
+    #stage
+        .lCurtain.curtain
+        .rCurtain.curtain
+        #progressBar(style="display:none")
+            .progress99
+            .downloadProcess
+                .fileName="..."
+                .process
+            .mainProcess
+                .process
+

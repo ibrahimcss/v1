@@ -1,0 +1,75 @@
+extends ../layout
+block extraHeader
+    link(rel='stylesheet' href='css/info.css')
+
+block extraFooter
+    script.
+        $(document).ready(function () {
+            setInterval(function () {
+                $(".desc.datetime").html(moment().format('HH:mm:ss DD/MM/YYYY'));
+            }, 1000);
+
+            $("a.button.refresh").on("click",function () {
+                window.top.quickRefresh();
+            });
+        })
+
+block content
+    h2 QUICK INFORMATION
+    .row
+        .title Date & Time
+        .desc.datetime #{info.datetime}
+    .row
+        .title Player Version
+        .desc #{release.player}
+    .row
+        .title Update Version
+        .desc #{release.update}
+    h3 NETWORK
+    .row
+        .title IP Address
+        .desc #{info.network.ip_address}
+    .row
+        .title Mac Address
+        .desc #{info.network.mac_address}
+    .row
+        .title Connection Type
+        .desc #{info.network.type}
+    if info.network.type == "Wireless"
+        .row
+            .title Wi-Fi Name
+            .desc #{currentconnection.ssid}
+    .row
+        .title Subnet
+        .desc #{info.network.netmask}
+    .row
+        .title Gateway
+        .desc #{info.network.gateway_ip}
+    .row
+        .title OS Name
+        .desc #{info.os}
+    .row
+        .title Root
+        .desc #{info.path}
+    h3 MEMORY
+    .row
+        .title Total
+        .desc #{info.totalmem}
+    .row
+        .title Free
+        .desc #{info.freemem}
+    .row
+        .title Used
+        .desc #{info.usedmem}
+    h3 DISK
+    .row
+        .title Total
+        .desc #{info.disk.total.size}
+    .row
+        .title Free
+        .desc #{info.disk.total.free}
+    .row
+        .title Used
+        .desc #{info.disk.total.used}
+    .row
+        a.button.refresh(href="javascript:;") REFRESH

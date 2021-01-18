@@ -1,0 +1,25 @@
+{
+  "name": "BORAN YAZILIM PLAYER",
+  "description": "BORAN YAZILIM",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": [
+        "background.js"
+      ]
+    }
+  },
+  "permissions": [
+    "webview",
+    "storage",
+    "http://*/",
+    "https://*/",
+    "http://*:*/",
+    "https://*:*/",
+    "ws://*",
+    "ws://*/",
+    "filesystem",
+    "browsingData"
+  ]
+}

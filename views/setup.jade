@@ -1,0 +1,68 @@
+extends layout
+block extraHeader
+    link(rel='stylesheet' href='css/setup.css')
+
+block extraFooter
+    script(src='js/3rdParty/jquery-3.5.1.min.js')
+    script.
+        $(document).ready(function () {
+            $(".setupMain").addClass("active");
+            $('a.box').on("click",function () {
+                if (!$(this).hasClass('active')){
+                    $('a.box').removeClass("active");
+                    $(this).addClass("active");
+
+                    let c = $(this).data("iframe");
+                    $("#formFrame").attr("src",c);
+                }
+            });
+
+            let i = 0;
+            let a = "Loading";
+            setInterval(function () {
+                $('.loading span').html(a);
+                if(++i>3)i=0;
+                for (let k = 0; k < i; k++){
+                    $('.loading span').append('.');
+                }
+            },750);
+
+            $('#quickFrame').on('load', function () {
+                $('#quickFrame').addClass('show');
+            });
+        });
+
+        function quickRefresh() {
+            $('#quickFrame').attr('src','');
+            setTimeout(function () {
+                $('#quickFrame').removeClass('show');
+                $('#quickFrame').attr('src','info');
+            },250)
+        }
+
+block content
+    .setupMain
+        .left
+            h2 SERVICE MENU
+            a.box.one.active(href="javascript:;" data-iframe='player')
+                img.screens(src='img/install.png')
+                span Setup
+            a.box.two(href="javascript:;" data-iframe='system')
+                img.screens(src='img/system.png')
+                span System
+            a.box.thre(href="javascript:;" data-iframe='screen')
+                img.screens(src='img/tv.png')
+                span Screen
+            a.box.four(href="javascript:;" data-iframe='network')
+                img(src='img/network.svg')
+                span Network
+            a.box.four(href="javascript:;" data-iframe='http://localhost:1337')
+                img(src='img/remotecontrol.png')
+                span Control
+        .center
+            iframe#formFrame(src='player')
+        .right
+            iframe#quickFrame(src='info')
+            .loading
+                span Loading
+

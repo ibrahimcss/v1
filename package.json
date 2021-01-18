@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "description": "DS Player",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Boran Software",
+  "license": "ISC",
+  "name": "player",
+  "repository": {
+    "type": "git",
+    "url": "http://git.boransoftware.com/root/ds-player.git"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "envfile": "^6.14.0",
+    "express": "^4.17.1",
+    "ftp": "^0.3.10",
+    "graceful-fs": {
+      "version": "4.2.2"
+    },
+    "hdd-space": "^1.2.0",
+    "jade": "^1.11.0",
+    "md5": "^2.3.0",
+    "md5-file": "^4.0.0",
+    "moment": "^2.29.0",
+    "network": "^0.5.0",
+    "node-wifi": "^2.0.14",
+    "os-name": "^4.0.0",
+    "process-list": "^2.0.0",
+    "screenshot-desktop": "^1.12.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "latest",
+    "socketcluster": "^16.0.1",
+    "socketcluster-client": "^14.3.1",
+    "sudo-js": "^1.0.2",
+    "tasklist-stream": "^0.2.1",
+    "unzipper": "^0.10.11"
+  }
+}

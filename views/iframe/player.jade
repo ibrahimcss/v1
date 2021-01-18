@@ -1,0 +1,134 @@
+extends ../layout
+block extraHeader
+    link(rel='stylesheet' href='css/form.css')
+block content
+    h3 SETUP SETTINGS
+    form(method="post")
+        -let idError="",portError="",servAddrError="",servPortError="",widthError="",heightError="",xError="",yError="",browserError="",developerError="",playerUpdateError="",rsUpdateError="";
+        if formerror && formerror.length > 0
+            -let i = -1;
+            -i = formerror.findIndex(x=> x.field == "dsID")
+            if i > -1
+                -idError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Port")
+            if i > -1
+                -portError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "ServerAddress")
+            if i > -1
+                -servAddrError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "ServerPort")
+            if i > -1
+                -servPortError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Width")
+            if i > -1
+                -widthError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Height")
+            if i > -1
+                -heightError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "X")
+            if i > -1
+                -xError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Y")
+            if i > -1
+                -yError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Browser")
+            if i > -1
+                -browserError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "Developer")
+            if i > -1
+                -developerError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "PlayerUpdate")
+            if i > -1
+                -playerUpdateError = formerror[i].message
+
+            -i = formerror.findIndex(x=> x.field == "RSUpdate")
+            if i > -1
+                -rsUpdateError = formerror[i].message
+        .row
+            .title ID
+            .desc
+                input(type="number",  name="dsID", autocomplete="off", value = envfile && envfile.dsID ? envfile.dsID : "0" )
+                span.error #{idError}
+        .row
+            .title Port
+            .desc
+                select(name="Port")
+                    - let n = 3000
+                    while n < 3011
+                        option(value=n, selected = envfile && envfile.PORT && n == envfile.PORT ? true : false) #{n}
+                        -n++;
+                span.error #{portError}
+        .row
+            .title Server Address
+            .desc
+                input(type="text" autocomplete="off" name="ServerAddress" required="required" , value = envfile && envfile.RMS_HOST ? envfile.RMS_HOST.split(':')[0] : "" )
+                span.error #{servAddrError}
+        .row
+            .title Server Port
+            .desc.large
+                input(type="number" autocomplete="off" name="ServerPort" required="required" value = envfile && envfile.RMS_HOST ? envfile.RMS_HOST.split(':')[1] : "")
+                span.error #{servPortError}
+        .row
+            .title Width(px)
+            .desc
+                input(type="number" autocomplete="off" name="Width" required="required" value = envfile && envfile.WIDTH ? envfile.WIDTH : "0" )
+                span.error #{widthError}
+        .row
+            .title Height(px)
+            .desc
+                input(type="number" autocomplete="off" name="Height" required="required" value = envfile && envfile.HEIGHT ? envfile.HEIGHT : "0" )
+                span.error #{heightError}
+        .row
+            .title X Position(px)
+            .desc
+                input(type="number" autocomplete="off" name="X" required="required" value = envfile && envfile.X ? envfile.X : "0" )
+                span.error #{xError}
+        .row
+            .title Y Position(px)
+            .desc
+                input(type="number" autocomplete="off" name="Y" required="required" value = envfile && envfile.Y ? envfile.Y : "0" )
+                span.error #{yError}
+        .row
+            .title Browser CMD
+            .desc
+                select(name="Browser")
+                    option(value="start chrome", selected = envfile && envfile.CHROME_BIN_NAME && "start chrome" == envfile.CHROME_BIN_NAME ? true : false) #{"start chrome (Windows)"}
+                    option(value="google-chrome", selected = envfile && envfile.CHROME_BIN_NAME && "google-chrome" == envfile.CHROME_BIN_NAME ? true : false) #{"google-chrome (Ubuntu)"}
+                span.error #{browserError}
+
+        .row
+            .title Developer Mode
+            .desc
+                select(name="Developer")
+                    option(value="0", selected = envfile && envfile.DEVELOPER_MODE && 0 == envfile.DEVELOPER_MODE ? true : false) #{"Disable"}
+                    option(value="1", selected = envfile && envfile.DEVELOPER_MODE && 1 == envfile.DEVELOPER_MODE ? true : false) #{"Enable"}
+                span.error #{developerError}
+        .row
+            .title Player Auto Update
+            .desc
+                select(name="PlayerAutoUpdate")
+                    option(value="0", selected = envfile && envfile.PLAYER_AUTO_UPDATE && 0 == envfile.PLAYER_AUTO_UPDATE ? true : false) #{"Disable"}
+                    option(value="1", selected = envfile && envfile.PLAYER_AUTO_UPDATE && 1 == envfile.PLAYER_AUTO_UPDATE ? true : false) #{"Enable"}
+                span.error #{playerUpdateError}
+        .row
+            .title RS232 Auto Update
+            .desc
+                select(name="RSAutoUpdate")
+                    option(value="0", selected = envfile && envfile.RS_AUTO_UPDATE && 0 == envfile.RS_AUTO_UPDATE ? true : false) #{"Disable"}
+                    option(value="1", selected = envfile && envfile.RS_AUTO_UPDATE && 1 == envfile.RS_AUTO_UPDATE ? true : false) #{"Enable"}
+                span.error #{rsUpdateError}
+        .row
+            .title
+            .desc
+                button(type="submit") SAVE CHANGES
+

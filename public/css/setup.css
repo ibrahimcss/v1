@@ -1,0 +1,102 @@
+body{
+    max-width: 1920px;
+    max-height: 1080px;
+}
+
+.setupMain {
+    width: 100%;
+    height: 100%;
+    background-color: #e4e1e1;
+    /*padding: 5px;*/
+}
+
+.setupMain .left{
+    width: 200px;
+    float:left;
+    padding: 5px;
+    height: 100%;
+    background-color: white;
+    /*border-radius: 15px;*/
+}
+
+.setupMain .left h2{
+    width: 100%;
+    text-align: center;
+    font-weight: normal;
+    color:#303030;
+    height: 45px;
+    border-bottom: 1px solid #303030;
+}
+
+.setupMain .left a{
+    width: 100%;
+    height: 55px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #303030;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.setupMain .left a img{
+    width: 40px;
+    margin-right: 15px;
+}
+
+.setupMain .left a.active{
+    background-color: dodgerblue;
+    color: white;
+}
+.setupMain .center{
+    float:left;
+    width: calc(100% - 550px);
+    margin: 0 0 0 5px;
+    background-color: #fff;
+    height: 100%;
+}
+
+.setupMain .right{
+    float:left;
+    width: 340px;
+    margin: 0 0 0 5px;
+    background-color: #fff;
+    height: 100%;
+    padding: 0px 5px 0px 5px;
+    position: relative;
+}
+
+.setupMain .right .loading{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color:white;
+    font-size: 20px;
+    background-color: #000000b3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.setupMain .right .loading span{
+    width: 100px;
+    text-align: left;
+}
+
+iframe{
+    border:0px;
+}
+
+iframe#quickFrame{
+     display: none;
+}
+
+iframe.show{
+    display: block !important;
+}
+iframe.show + .loading{
+    display: none !important;
+}

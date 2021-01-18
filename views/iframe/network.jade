@@ -1,0 +1,99 @@
+extends ../layout
+block extraHeader
+    link(rel='stylesheet' href='css/form.css')
+    script.
+        $(document).ready(function () {
+            $("select[name='drpWiFi']").on('change',function () {
+                let c = $(this).find("option:selected").data("quality");
+                $(".wifiSignal").removeClass("wifi0 wifi1 wifi2 wifi3 wifi4");
+                $(".wifiSignal").addClass(c);
+            });
+
+            $("select[name='allowPortList'],select[name='denyPortList']").on('change',function () {
+                $("input[name='txtPortNo']").val($(this).val());
+            });
+
+        })
+
+
+block content
+    form(method="post")
+        h3 CHANGE IP ADDRESS
+        .row
+            .title IP
+            .desc
+                input(type="text" autocomplete="off" name="txtIP" placeholder="192.168.x.x")
+        .row
+            .title Subnet
+            .desc
+                input(type="text" autocomplete="off" name="txtSubnet" placeholder="255.255.x.x")
+        .row
+            .title Gateway
+            .desc
+                input(type="text" autocomplete="off" name="txtGateway" placeholder="192.168.x.x")
+        .row
+            .title DNS
+            .desc
+                input(type="text" autocomplete="off" name="txtDNS" placeholder="x.x.x.x")
+        .row
+            .title
+            .desc
+                button(type="submit" name='setStaticIP' value="5") SAVE CHANGES
+
+        h3 WI-FI SETTINGS
+        .row
+            .title Current Wi-Fi Name
+            .desc
+                if currentconnection && currentconnection.ssid
+                    span.left #{currentconnection.ssid}
+                    button.button.deny(name='destroyWifi' value="3") Disconnect
+                else
+                    | #{"No Wi-Fi Connection"}
+
+
+        .row
+            .title Select Wi-Fi
+            .desc
+                select(name='drpWiFi')
+                    option(value="-1" data-quality="wifi0") Select a Wi-Fi
+                    each item in wifilist
+                        if item.ssid.length>0
+                            -let signalClass="";
+                            if item.quality < 25
+                                -signalClass = "wifi1";
+                            else if item.quality < 50
+                                -signalClass = "wifi2";
+                            else if item.quality < 75
+                                -signalClass = "wifi3";
+                            else if item.quality < 100
+                                -signalClass = "wifi4";
+                            option(value=item.ssid data-quality=signalClass) #{item.ssid}
+                .wifiSignal
+
+
+        .row
+            .title Password
+            .desc
+                input(type="password" name="txtPassword" autocomplete="off")
+                button.button(name='connectWifi' value="4") Connect
+        h3 PORT SETTINGS
+        .row
+            .title Port Number
+            .desc
+                input(type="number" name="txtPortNo")
+                button.button.allow(type="submit" name="btnAllow"  value="1")  Allow
+                button.button.deny(type="submit" name="btnDeny" value="2")   Deny
+        .row.top
+            .title Allow List
+            .desc
+                select.list(name="allowPortList" size="5")
+                    if allowlist
+                        -each c in allowlist
+                            option(value=c) !{c}
+        .row.top
+            .title Deny List
+            .desc
+                select.list(name="denyPortList" size="5")
+                    if denylist
+                        -each c in denylist
+                            option(value=c) !{c}

@@ -1,0 +1,189 @@
+
+body{
+    padding: 15px 5px;
+}
+.row {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #303030;
+    font-size: 14px;
+    border-bottom: 1px solid #e4e1e1;
+    /* padding: 0 5px; */
+    /*text-align: center;*/
+}
+.row.top{
+    align-items: flex-start;
+}
+
+.row.top .title{
+   padding-top:5px;
+}
+.row .title,
+.row .desc {
+    width: 220px;
+    float: left;
+    word-break: break-all;
+}
+
+.row .title{
+    max-width: 225px;
+    padding-left: 5px;
+    /* display: flex; */
+    /* align-items: flex-start; */
+}
+
+.row .desc{
+    /* max-width: 350px; */
+    width: 500px;
+}
+
+.row .desc.large{
+    max-width: 550px;
+}
+
+.row .desc .button{
+   width: 85px;
+   margin-left: 5px;
+   float: left;
+   cursor:pointer;
+}
+
+.row .desc .button.wide{
+    width: 150px;
+}
+
+.row .desc button.allow{
+  background-color: #16a713;
+}
+
+.row .desc .button.deny{
+    background-color: #d41515;
+}
+
+.row .desc span.left{
+    float: left;
+    padding: 9px 0 0 0px;
+    min-width: 250px;
+    text-align: left;
+}
+
+.row .desc span.v{
+    width: 25px;
+    min-width: unset;
+    /* padding-top: 0; */
+}
+
+.row .title:after {
+    content: ":";
+    float: right;
+    margin-right: 10px;
+}
+
+h3{
+    width: 100%;
+    text-align: center;
+    font-weight: normal;
+    color: #303030;
+    height: 35px;
+    border-bottom: 1px solid #303030;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    background-color: #ccc8c3;
+    padding-left: 5px;
+    border:0;
+}
+
+.row .button, .row button {
+    width: 250px;
+    height: 35px;
+    background-color: #a7135e;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    text-decoration: none;
+    border: 0;
+    outline: 0;
+}
+
+
+input,select{
+    height: 35px;
+    border-radius: 0;
+    border: 1px solid #979797;
+    width: 250px;
+    padding: 2px 4px;
+    float: left;
+}
+select{
+    padding: 2px 0px;
+}
+select.list{
+    height: 100px;
+}
+input:focus,select:focus{
+    outline:0;
+    border: 1px solid #979797;
+}
+
+.desc.large input,
+.desc.large select{
+    width: 250px;
+}
+
+.wifiSignal{
+     width: 30px;
+     background-image: url("../img/wifi-signal.png");
+     float: left;
+     object-fit: contain;
+     height: 20px;
+     background-size: cover;
+     margin: 5px 5px;
+ }
+
+.wifiSignal.wifi1{
+    background-position: -30px 0;
+}
+
+.wifiSignal.wifi2{
+    background-position: -60px 0;
+}
+
+
+.wifiSignal.wifi3{
+    background-position: -90px 0;
+}
+
+
+.wifiSignal.wifi4{
+    background-position: -121px 0;
+    width: 26px;
+}
+
+.error,
+.success{
+    float: left;
+    height: 35px;
+    padding-top: 9px;
+    padding-left: 5px;
+    color: red;
+    font-weight: normal;
+}
+
+.success{
+    color: green;
+}
+
+img.loading{
+    display: none;
+    float: left;
+    width: 30px;
+}
+

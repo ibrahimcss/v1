@@ -1,0 +1,161 @@
+extends ../layout
+block extraHeader
+    link(rel='stylesheet' href='css/form.css')
+    style.
+        .error,.success {
+            float: none !important;
+        }
+        .left{
+            padding-left: 10px !important;
+        }
+        .button.allow {
+            float: none !important;
+            display: inline-block !important;
+        }
+        .loglist{
+            width: 100%;
+            overflow: hidden auto;
+            height: 350px;
+            background-color: black;
+            color: white;
+            position: absolute;
+            bottom: 0;
+        }
+        .loglist span{
+            display: block;
+            width: 100%;
+            padding: 5px;
+            border-bottom: 1px solid #fff;
+        }
+        .row button:first-child{
+            margin-right: 5px;
+        }
+
+    script.
+        let playerV = #{release.player}
+        let player_updateV = #{release.update}
+        let rs232V = #{rs232}
+        let rs232_updateV = #{rs232update}
+        let socket = null;
+        let socketConnected = null;
+
+        $(document).ready(function () {
+            $("a.button").on("click",function () {
+                $('img.loading').show();
+                $('.row .check.error').html("");
+                showMessage("Checking for updates.");
+                setTimeout(function () {
+                    ajax("http://#{rmshost}/version", function (data) {
+                        if (data) {
+                            let rms_playerV = data.player.version;
+                            let rms_player_updateV = data.player_update.version;
+                            let rms_rs232V = data.rs232.version;
+                            let rms_rs232_updateV = data.rs232_update.version;
+
+                            let updateText=(_t,_h) => {
+                                return `<button type="button" data-type="${_t}" data-hash="${_h}" class="button allow">UPDATE</span>`
+                            }
+                            let noUpdateText = '<span class="error">UPDATE NOT AVAILABLE</span>';
+
+                            $(".row .desc .button,.row .desc .error").remove()
+
+                            if (rms_playerV > playerV) $(".row:eq(0) .desc").append(updateText('player_install',data.player.hash));
+                            else $(".row:eq(0) .desc").append(noUpdateText);
+
+                            if (rms_player_updateV > player_updateV) $(".row:eq(1) .desc").append(updateText('player_update_install', data.player_update.hash));
+                            else $(".row:eq(1) .desc").append(noUpdateText);
+
+                            if (rms_rs232V > rs232V) $(".row:eq(2) .desc").append(updateText('rs232_install', data.rs232.hash));
+                            else $(".row:eq(2) .desc").append(noUpdateText);
+
+                            if (rms_rs232_updateV > rs232_updateV) $(".row:eq(3) .desc").append(updateText('rs232_update_install', data.rs232_update.hash));
+                            else $(".row:eq(3) .desc").append(noUpdateText);
+                        } else showMessage("Connection error.");
+
+                        $('img.loading').hide();
+                    });
+                },750)
+            })
+
+            $("form").on("click","button[data-type]",function (e) {
+                let c = $(this).data("type");
+                let h = $(this).data("hash");
+
+                let s = () => {
+                    sendMessage({cmd:c,hash:h})
+                }
+
+                if (!socket){
+                    showMessage("Player Server socket is connecting.");
+                    socket = io({
+                        autoConnect: true,
+                        reconnection: true,
+                        reconnectionDelay: 10000,
+                        query: {
+                            dsID: "setup"
+                        }});
+                    socket.on('connect', () => {
+                        showMessage("Player Server socket is connected.");
+                        socketConnected = true;
+                        s();
+                    });
+                    socket.on('disconnect', () => {
+                        showMessage("Player Server socket is disconnected.");
+                        socketConnected = false;
+                    });
+                    socket.on('error', () => {
+                        showMessage("Player Server socket is not connected.");
+                        socketConnected = false;
+                    });
+                    socket.on('message', (m) => {
+                        showMessage(m);
+                    });
+                } else s();
+            })
+
+        });
+
+        function sendMessage(m) { // To local nodeJS
+            if (socketConnected) {
+                if (typeof m === "object") {
+                    socket.send(m);
+                } else showMessage("Format of message that sending is not correct:\n" + m);
+            } else showMessage("Page does not connected to Player Server!");
+        }
+
+        function showMessage(m) {
+            $('.loglist').append(`<span>${m}</span>`);
+        }
+
+
+block content
+    h3 ABOUT PLAYER
+    form(method="post")
+        .row
+            .title PLAYER VERSION
+            .desc #{release.player}
+        .row
+            .title PLAYER UPDATE VERSION
+            .desc #{release.update}
+        .row
+            .title RS232 VERSION
+            .desc #{rs232}
+        .row
+            .title RS232 UPDATE VERSION
+            .desc #{rs232update}
+        .row
+            a.button(href="javascript:;") CHECK FOR UPDATES
+            img.loading(src="img/loading.gif")
+        .row
+        .row
+            button(type="button" data-type="restart_player") PLAYER PM2 RESTART
+            button(type="button" data-type="stop_player") PLAYER PM2 STOP
+        .row
+            button(type="button" data-type="restart_rs232") RS232 PM2 RESTART
+            button(type="button" data-type="stop_rs232") RS232 PM2 STOP
+    .loglist
+
+
+
+
+
